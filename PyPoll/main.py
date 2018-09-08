@@ -37,6 +37,7 @@ with open(csvpath, 'r') as csvfile:
             percentO = (candidateO/count)*100
 
     #scores=["candidateK","candidateC","candidateL","candidateO"]
+    print("")
     print("Election Results")
     print("-----------------------")
     print("Total Votes: ", str(count))
@@ -49,6 +50,7 @@ with open(csvpath, 'r') as csvfile:
     print("-----------------------")
 
 with open("main.txt","w") as textfile:
+    textfile.write("")
     textfile.write("Election Results")
     textfile.write("\n-----------------------")
     textfile.write("\nTotal Votes: "+ str(count))
