@@ -1,6 +1,8 @@
+#Onyinyechi Asoluka
+#Python homework 1- PyBank
+#8th September 2018
 import os
 import csv
-#QUESTIONS:
 #Create csv path to get data from pythonstuff folder
 csvpath = os.path.join("budget_data.csv")
 #Read file
@@ -24,12 +26,15 @@ with open(csvpath,'r') as csvfile:
         row[1]
 
         data.append(row[1])
+    #Calculate the difference between months and store
     for x in range(1, len(data)):
            diffy = (int(data[x])) - int(data[x-1])
            diff.append(diffy)
+    #calculate average change and get greatest increase and decrease
     avgchange= round(sum(diff)/(len(diff)),2)
     Greatest_increase = max(diff)
     Greatest_decrease = min(diff)
+    #make an index of increase and decrease and get the corresponding month
     month_increase_index= diff.index(Greatest_increase)
     month_decrease_index= diff.index(Greatest_decrease)
     month_increase= month[month_increase_index +1]
