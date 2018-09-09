@@ -1,66 +1,66 @@
+#Onyinyechi Asoluka
+#Python homework2- PyPoll
+#8th September 2018
 import os
 import csv
 
 #Collect data
 csvpath= os.path.join("election_data.csv")
+# Set initial counters, candidates, and winners
+total_votes = 0
+unique_candidate_list = []
+candidate_vote = {}
+count_winner= 0
 
-#def last_row(election_data):
-with open(csvpath, 'r') as csvfile:
-    csvlines= csv.reader(csvfile, delimiter=',')
+# Read the csv and account for header
+with open(csvpath,'r') as csvfile:
+    csvlines = csv.reader(csvfile, delimiter=',')
     csvheader= next(csvlines)
-    #Set initial count for votes and each candidate
-    count = 0
-    candidateK=0
-    candidateC= 0
-    candidateL= 0
-    candidateO = 0
-    percentK= 0
-    percentC =0
-    percentL= 0
-    percentO= 0
-    for votes in csvlines:
-        #Get number of votes using total rows
-        count= count +1
-        
-        #Calculate votes and percentage per candidate
-        if votes[2] == "Khan":
-            candidateK += 1
-            percentK = (candidateK/count)*100
-        if votes[2] == "Correy":
-            candidateC += 1
-            percentC = (candidateC/count)*100
-        if votes[2] == "Li":
-            candidateL += 1
-            percentL = (candidateL/count)*100
-        if votes[2] == "O'Tooley":
-            candidateO += 1
-            percentO = (candidateO/count)*100
 
-    #scores=["candidateK","candidateC","candidateL","candidateO"]
+    # Loop through rows
+    for row in csvlines:
+        # Get total votes by counting rows
+        total_votes = total_votes + 1
+
+        # Get list of named candidates
+        candidatename = row[2]
+
+        # Get list of unique candidates and add to candidate list
+        if candidatename not in unique_candidate_list:
+            unique_candidate_list.append(candidatename)
+
+            # Get the candidate vote list for each candidate
+            candidate_vote[candidatename] = 0
+        candidate_vote[candidatename] = candidate_vote[candidatename] + 1
+
+with open("main.txt", "w") as textfile:
+    #Put result and vote on terminal and text file
     print("")
     print("Election Results")
-    print("-----------------------")
-    print("Total Votes: ", str(count))
-    print("-----------------------")
-    print("Khan:", str(round(percentK)) + "%", "("+ str(candidateK) + ")")
-    print("Correy:", str(round(percentC)) + "%", "("+ str(candidateC) + ")")
-    print("Li:", str(round(percentL)) + "%", "("+ str(candidateL) + ")")
-    print("O'Tooley:", str(round(percentO)) + "%", "("+ str(candidateO) + ")")
-    print("-----------------------")
-    print("-----------------------")
-
-with open("main.txt","w") as textfile:
+    print("--------------------")
+    print("Total Votes: "+str(total_votes))
+    print("----------------------")
     textfile.write("")
-    textfile.write("Election Results")
-    textfile.write("\n-----------------------")
-    textfile.write("\nTotal Votes: "+ str(count))
-    textfile.write("\n-----------------------")
-    textfile.write("\nKhan: "+ str(round(percentK)) + "%"+ " ("+ str(candidateK) + ")")
-    textfile.write("\nCorrey: "+ str(round(percentC)) + "%"+ " ("+ str(candidateC) + ")")
-    textfile.write("\nLi: "+ str(round(percentL)) + "%"+ " ("+ str(candidateL) + ")")
-    textfile.write("\nO'Tooley: "+ str(round(percentO)) + "%"+ " ("+ str(candidateO) + ")")
-    textfile.write("\n-----------------------")
-    textfile.write("\n-----------------------")
-    
+    textfile.write("\nElection Results")
+    textfile.write("\n--------------------")
+    textfile.write("\nTotal Votes: "+ str(total_votes))
+    textfile.write("\n-----------------------\n")
 
-        
+    for candidate in candidate_vote:
+        # calculates vote and percentage and winner
+        votes = candidate_vote.get(candidate)
+        percent= (votes) / (total_votes) * 100
+        if (votes > count_winner):
+            count_winner = votes
+            winner = candidate
+
+        candidate_all = f"{candidate}: {percent:.3f}% ({votes})\n"
+        print(candidate_all)
+        textfile.write(candidate_all)
+
+    print("--------------------")
+    print("Winner: " + winner)
+    print("--------------------")
+    textfile.write("\n--------------------")
+    textfile.write("\nWinner: " + winner)
+    textfile.write("\n--------------------")
